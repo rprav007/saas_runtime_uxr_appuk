@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld-app
+  template:
+    metadata:
+      labels:
+        app: helloworld-app
+    spec:
+      containers:
+      - name: helloworld-app-container
+        image: us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0
+        ports:
+          - name: http
+            containerPort: 8080
