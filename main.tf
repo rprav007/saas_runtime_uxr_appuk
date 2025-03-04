@@ -15,8 +15,8 @@ provider "google" {
   project = var.tenant_project_id
 }
 
-# Add this missing data source
-data "google_client_config" "default" {}
+data "google_client_config" "default" {
+}
 
 # Configure the Kubernetes Provider
 provider "kubernetes" {
@@ -28,7 +28,14 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
 }
 
+# Deploy App containers
 resource "kubernetes_manifest" "app_deployment" {
   provider = kubernetes
   manifest = yamldecode(templatefile("${path.module}/app.yaml.tmpl", {}))
+}
+
+# Deploy Service to expose Deployment
+resource "kubernetes_manifest" "svc_deployment" {
+  provider = kubernetes
+  manifest = yamldecode(templatefile("${path.module}/svc.yaml.tmpl", {}))
 }
