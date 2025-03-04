@@ -15,6 +15,9 @@ provider "google" {
   project = var.tenant_project_id
 }
 
+# Add this missing data source
+data "google_client_config" "default" {}
+
 # Configure the Kubernetes Provider
 provider "kubernetes" {
   host = "https://${var.cluster_endpoint}"
